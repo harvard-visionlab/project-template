@@ -23,6 +23,12 @@ export WANDB_API_KEY="your_key_here"
 export WANDB_ENTITY="your_entity_here"
 ```
 
+Make sure you have user installations of libjpegturbo and opencv
+```
+install_libjpegturbo.sh
+install_opencv.sh
+```
+
 Create symbolic links (otherwise fall victim to the dreaded 100GB storage limit for your home directory.
 ```
 

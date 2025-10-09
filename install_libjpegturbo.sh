@@ -1,31 +1,36 @@
 #!/bin/bash
-# This script installs libjpegturbo for your user on the cluster (notice the $HOME/.local location).
-# You only need to run this once, ever, and it will be availble in all your envs.
-# In this template, libjpegturbo is used by the PyTurboJPEG package, enabling fast jpeg decoding.
-set -e  # Exit on error
+# Install libjpeg-turbo into ~/.local if not already present.
+set -euo pipefail
+module load cmake/3.30.3-fasrc01 || true
 
-# Load compatible cmake version (not the 4.x default)
-module load cmake/3.30.3-fasrc01
+PREFIX=${PREFIX:-$HOME/.local}
+VERSION=${VERSION:-3.0.1} # override by: VERSION=3.0.1 ./install_libjpegturbo.sh
+SRCDIR=/tmp/libjpeg-turbo-${VERSION}
 
-# Install libjpeg-turbo to user prefix
-PREFIX=$HOME/.local
+# --- Skip if installed ---
+if pkg-config --exists turbojpeg 2>/dev/null; then
+  echo "✔ libjpeg-turbo already installed at $(pkg-config --variable=prefix turbojpeg)"
+  exit 0
+fi
+
+echo "⏳ Installing libjpeg-turbo ${VERSION} to ${PREFIX}"
 
 cd /tmp
-wget -c https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-3.0.1.tar.gz
-tar -xzf libjpeg-turbo-3.0.1.tar.gz
-cd libjpeg-turbo-3.0.1
+wget -c https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-${VERSION}.tar.gz
+tar -xzf libjpeg-turbo-${VERSION}.tar.gz
+cd ${SRCDIR}
 
-mkdir build && cd build
+mkdir -p build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=$PREFIX \
-      -DCMAKE_BUILD_TYPE=RELEASE \
+      -DCMAKE_BUILD_TYPE=Release \
       -DENABLE_STATIC=FALSE \
       -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib \
       ..
-make -j$(nproc)
+make -j"$(nproc)"
 make install
 
-cd /tmp && rm -rf libjpeg-turbo-3.0.1*
+cd /tmp && rm -rf ${SRCDIR}*
 
-echo "libjpeg-turbo installed to $PREFIX"
-echo "Add this to your ~/.bashrc if not already there:"
+echo "✅ libjpeg-turbo installed to $PREFIX"
+echo "Add to ~/.bashrc:"
 echo "export LD_LIBRARY_PATH=\$HOME/.local/lib:\$LD_LIBRARY_PATH"
