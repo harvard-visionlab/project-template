@@ -2,6 +2,23 @@
 
 So you want to start a new project in the Visionlab? Start here...
 
+## Why use this template?
+
+1. **Git-based portability** - Your code lives in a GitHub repo, making it easy to work across your laptop, the cluster, and collaborators' machines.
+
+2. **Reproducible uv environment** - Dependencies are managed with [uv](https://docs.astral.sh/uv/) and locked in `uv.lock`, ensuring everyone gets the same package versions.
+
+3. **Installable Python package** - Your project is set up as a proper Python package. No more `sys.path` hacks or broken imports. Works locally and can be added as a dependency to other projects:
+   ```python
+   from visionlab.my_project import essential_function
+   ```
+
+4. **Jupyter notebooks with nbstripout** - Cell outputs are automatically stripped when you commit. Your notebooks stay in version control without bloating the repo with images/data. (Note: outputs are only removed from GitHub's copy - your local notebooks keep their outputs.)
+
+5. **Optional JupyterLab server** - Run `uv run jupyter lab` for local notebook development.
+
+6. **Optional devcontainer** - Need a sandboxed Linux environment? Open the project in VS Code's devcontainer for isolated development in a Docker container.
+
 # Creating Your Project from This Template
 
 ## 1. Create a new repo from the template
