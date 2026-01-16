@@ -52,23 +52,13 @@ package-dir = { "visionlab.my_project" = "my_project" }
 packages = ["visionlab.my_project"]
 ```
 
-## 4. Import your code
+## 4. First time setup
 
-After setup, you can import your code like this:
-
-```python
-from visionlab.my_project import something
-from visionlab.my_project.models import MyModel
-from visionlab.my_project.datasets import MyDataset
-```
-
-# Project Installation
-
-# first time setup (run on any local clone of this repository)
+Run these commands on any local clone of this repository:
 
 ```
 uv lock --python 3.11
-uv sync --locked
+uv sync --locked --dev
 uv run nbstripout --install
 uv run python check_install.py
 ```
