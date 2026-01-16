@@ -18,5 +18,8 @@ print("litdata version:", litdata.__version__)
 import cv2
 print("cv2 version:", cv2.__version__)
 
+import pandas as pd
+print("pandas version:", pd.__version__)
+
 from visionlab.datasets import StreamingDataset
 print("StreamingDataset:", StreamingDataset)

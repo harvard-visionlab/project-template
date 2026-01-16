@@ -1,5 +1,5 @@
 [project]
-name = "visionlab-project-template"
+name = "project-template"
 version = "0.1.0"
 description = "VisionLab project template (uv + CUDA-ready torch)"
 readme = "README.md"
@@ -7,8 +7,8 @@ requires-python = "==3.11.*"
 # Your import will be:  `from visionlab.project_template import ...`
 # (Setuptools install is editable by default with `uv sync`.)
 dependencies = [
-    "numpy>=1.26",
-    "tqdm>=4.66",
+    "numpy",
+    "tqdm",
     # Torch stack (resolve exact versions in the lockfile)
     "torch>=2.7.0",
     "torchvision>=0.22.0",
@@ -19,6 +19,8 @@ dependencies = [
     "matplotlib",
     "seaborn",        
     "scikit-learn",
+    "pandas",
+    "pyarrow",
     
     # remote storage
     "s5cmd",
@@ -30,6 +32,7 @@ dependencies = [
     # remote datasets
     "litdata@git+https://github.com/Lightning-AI/litData.git",  
     "visionlab-datasets@git+https://github.com/harvard-visionlab/datasets.git",    
+    
 ]
 
 [tool.uv]
@@ -40,34 +43,10 @@ dev = [
     "pytest", # Test runner (uv run pytest -q)
     "pytest-xdist", # Run tests in parallel (great for multi-core machines)
     "ruff", # Linter (uv run ruff check .)
-    "ipykernel", # jupyter kernels,
+    "ipykernel", # jupyter kernels
+    "jupyterlab", # uv run jupyter lab
     "nbstripout", # automatically drop cell outputs from commit
 ]
-
-# Route ONLY the torch triplet to CUDA (Linux) or CPU (others)
-[tool.uv.sources]
-torch = [
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
-    { index = "pytorch-cpu",   marker = "sys_platform != 'linux'" },
-]
-torchvision = [
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
-    { index = "pytorch-cpu",   marker = "sys_platform != 'linux'" },
-]
-torchaudio = [
-    { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
-    { index = "pytorch-cpu",   marker = "sys_platform != 'linux'" },
-]
-
-[[tool.uv.index]]
-name = "pytorch-cu128"
-url  = "https://download.pytorch.org/whl/cu128"
-explicit = true
-
-[[tool.uv.index]]
-name = "pytorch-cpu"
-url  = "https://download.pytorch.org/whl/cpu"
-explicit = true
 
 # --- setuptools config (explicit map + explicit package list) ---
 [tool.setuptools]
