@@ -2,6 +2,49 @@
 
 So you want to start a new project in the Visionlab? Start here...
 
+# Creating Your Project from This Template
+
+## 1. Create a new repo from the template
+
+On GitHub, click the green "Use this template" button, or:
+
+```
+gh repo create harvard-visionlab/my-project --template harvard-visionlab/project-template --private
+git clone git@github.com:harvard-visionlab/my-project.git
+cd my-project
+```
+
+## 2. Rename the project folder
+
+Rename `project_template/` to your project name (use underscores, not hyphens):
+
+```
+mv project_template my_project
+```
+
+## 3. Update pyproject.toml
+
+Update these fields to match your project name:
+
+```toml
+[project]
+name = "my-project"  # your repo name
+
+[tool.setuptools]
+package-dir = { "visionlab.my_project" = "my_project" }
+packages = ["visionlab.my_project"]
+```
+
+## 4. Import your code
+
+After setup, you can import your code like this:
+
+```python
+from visionlab.my_project import something
+from visionlab.my_project.models import MyModel
+from visionlab.my_project.datasets import MyDataset
+```
+
 # Project Installation
 
 # first time setup (run on any local clone of this repository)
